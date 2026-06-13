@@ -118,14 +118,14 @@ export async function POST(
     });
 
     // Decision 21: Batch insert all rows
-    await prisma.$transaction(async (tx: typeof prisma) => {
-      await (tx as typeof prisma).importedExpenseRaw.createMany({ data: rowsToCreate });
+    await prisma.$transaction(async (tx) => {
+      await tx.importedExpenseRaw.createMany({ data: rowsToCreate });
 
       const pendingCount = rowsToCreate.filter((r) =>
         (r.anomalies as { requiresApproval?: boolean }[]).some((a) => a.requiresApproval)
       ).length;
 
-      await (tx as typeof prisma).importSession.update({
+      await tx.importSession.update({
         where: { id: sessionId },
         data: {
           totalRows: parsedRows.length,

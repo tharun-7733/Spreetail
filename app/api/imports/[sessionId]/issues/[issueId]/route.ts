@@ -56,7 +56,7 @@ export async function PATCH(
       data: {
         status: parsed.status,
         resolvedAs: parsed.resolvedAs ?? (parsed.status === "SKIPPED" ? "SKIPPED" : undefined),
-        resolvedData: parsed.resolvedData ?? undefined,
+        resolvedData: parsed.resolvedData ? (parsed.resolvedData as Record<string, any>) : undefined,
         resolutionNote: parsed.resolutionNote,
         approvedById: session.userId as string,
         approvedAt: new Date(),

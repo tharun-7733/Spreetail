@@ -80,8 +80,9 @@ export default async function BalancesPage() {
     balanceMap[otherId].net += Number(row.shareAmount);
   }
 
-  // Others owe me for expenses I paid
+  // Others owe me for expenses I paid (ignoring guest participants for global balances)
   for (const row of paidExpenses) {
+    if (!row.userId || !row.user) continue;
     const otherId = row.userId;
     const other = row.user;
     if (!balanceMap[otherId]) balanceMap[otherId] = { user: other, net: 0 };

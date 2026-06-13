@@ -58,8 +58,8 @@ export async function POST(
 
         if (resolvedAs === "SETTLEMENT") {
           // Decision 22: Settlement-disguised-as-expense goes to Settlement table
-          await prisma.$transaction(async (tx: typeof prisma) => {
-            const settlement = await (tx as typeof prisma).settlement.create({
+          await prisma.$transaction(async (tx) => {
+            const settlement = await tx.settlement.create({
               data: {
                 groupId: importSession.groupId,
                 payerId: String(resolved.payerId ?? resolved.paidById ?? ""),
@@ -70,7 +70,7 @@ export async function POST(
                 settledAt: resolved.date ? new Date(String(resolved.date)) : new Date(),
               },
             });
-            await (tx as typeof prisma).importedExpenseRaw.update({
+            await tx.importedExpenseRaw.update({
               where: { id: row.id },
               data: { committedEntityId: settlement.id },
             });
@@ -83,8 +83,8 @@ export async function POST(
           const originalCurrency = String(resolved.originalCurrency ?? resolved.currency ?? "INR");
           const isINR = originalCurrency === "INR";
 
-          await prisma.$transaction(async (tx: typeof prisma) => {
-            const expense = await (tx as typeof prisma).expense.create({
+          await prisma.$transaction(async (tx) => {
+            const expense = await tx.expense.create({
               data: {
                 groupId: importSession.groupId,
                 paidById: String(resolved.paidById ?? ""),
@@ -102,7 +102,7 @@ export async function POST(
                 date: resolved.date ? new Date(String(resolved.date)) : new Date(),
               },
             });
-            await (tx as typeof prisma).importedExpenseRaw.update({
+            await tx.importedExpenseRaw.update({
               where: { id: row.id },
               data: { committedEntityId: expense.id },
             });
