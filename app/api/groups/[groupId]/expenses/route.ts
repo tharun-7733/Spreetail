@@ -41,9 +41,10 @@ export async function GET(req: Request, { params }: { params: Promise<{ groupId:
       orderBy: { createdAt: "desc" },
     });
 
-    return NextResponse.json({ expenses });
-  } catch (error) {
-    return NextResponse.json({ error: "Internal error" }, { status: 500 });
+    return NextResponse.json({ expenses: JSON.parse(JSON.stringify(expenses)) });
+  } catch (error: any) {
+    console.error("GET Expenses Error:", error);
+    return NextResponse.json({ error: error.message || "Internal error" }, { status: 500 });
   }
 }
 
@@ -98,7 +99,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ groupId
       return newExpense;
     });
 
-    return NextResponse.json({ expense }, { status: 201 });
+    return NextResponse.json({ expense: JSON.parse(JSON.stringify(expense)) }, { status: 201 });
   } catch (error) {
     console.error("Failed to create expense:", error);
     if (error instanceof z.ZodError) {

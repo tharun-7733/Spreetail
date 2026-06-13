@@ -74,8 +74,9 @@ export async function GET(req: Request, { params }: { params: Promise<{ groupId:
       seen.add(pairKey);
     }
 
-    return NextResponse.json({ balances });
-  } catch (error) {
-    return NextResponse.json({ error: "Internal error" }, { status: 500 });
+    return NextResponse.json({ balances: JSON.parse(JSON.stringify(balances)) });
+  } catch (error: any) {
+    console.error("GET Balances Error:", error);
+    return NextResponse.json({ error: error.message || "Internal error" }, { status: 500 });
   }
 }
