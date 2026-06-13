@@ -3,6 +3,8 @@ import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Sidebar } from "@/components/layout/Sidebar";
 
+import { TopHeader } from "@/components/layout/TopHeader";
+
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const session = await getSession();
   if (!session || !session.userId) {
@@ -17,10 +19,15 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   if (!user) redirect("/login");
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <Sidebar user={user} />
-      <main className="flex-1 overflow-auto">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6">{children}</div>
+    <div className="flex min-h-screen bg-gray-50/50">
+      <Sidebar user={user as any} />
+      <main className="flex-1 flex flex-col min-w-0">
+        <TopHeader user={user} />
+        <div className="flex-1 overflow-auto">
+          <div className="p-6 md:p-8 max-w-7xl mx-auto w-full">
+            {children}
+          </div>
+        </div>
       </main>
     </div>
   );
