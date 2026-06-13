@@ -45,17 +45,7 @@ export default function SettlementsPage() {
   );
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <button onClick={() => router.back()} className="text-sm text-gray-500 hover:text-gray-900 mb-2 block">
-            ← Back to Group
-          </button>
-          <h1 className="text-2xl font-bold text-gray-900">Settlements</h1>
-          <p className="text-sm text-gray-500 mt-0.5">Record of all payments made between members</p>
-        </div>
-      </div>
-
+    <div className="space-y-6 mt-6">
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         {settlements.length === 0 ? (
           <div className="p-8 text-center text-gray-500">
