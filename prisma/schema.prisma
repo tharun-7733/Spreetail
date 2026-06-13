@@ -14,8 +14,8 @@
 //   [A5] Equal split: divided only among selected participants, not all group members.
 //   [A6] Settlements: manually recorded by any group member. Directly reduces balance.
 //        No "settlement expense" pattern.
-//   [A7] Currency: single-currency per expense (stored as a string field).
-//        No conversion. Default: "INR".
+//   [A7] Currency: User can select currency per expense. Stored as string.
+//        No conversion logic. Default: "INR".
 //   [A8] Soft-delete pattern not used for MVP. Hard deletes only.
 //   [A9] Comment editing not supported for MVP. Create only.
 // =============================================================================
@@ -138,7 +138,7 @@ model Expense {
   createdById String    // FK: who added this expense record (may differ from payer)
   description String
   amount      Decimal   @db.Decimal(12, 2) // Total bill amount
-  currency    String    @default("INR")    // [A7] Single currency, no conversion
+  currency    String    @default("INR")    // [A7] User can select currency, no conversion
   splitType   SplitType
   date        DateTime  @default(now())   // Date of the expense (user-selectable)
   createdAt   DateTime  @default(now())

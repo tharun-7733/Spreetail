@@ -79,7 +79,7 @@
 | A4 | All four split types supported: EQUAL, UNEQUAL, PERCENTAGE, SHARES. |
 | A5 | EQUAL split divides only among *selected* participants, not all group members. |
 | A6 | Settlements are manually recorded; directly reduce balance. No "settlement expense" pattern. |
-| A7 | Single currency per expense stored as string (default: INR). No conversion. |
+| A7 | Users can pick currency per expense. No conversion logic. |
 | A8 | Hard deletes only (no soft-delete) for MVP. |
 | A9 | Comment editing not supported for MVP — insert only. |
 
