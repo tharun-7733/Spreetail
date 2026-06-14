@@ -77,9 +77,7 @@ const steps = [
 
 export default async function LandingPage() {
   const session = await getSession();
-  if (session && session.userId) {
-    redirect("/dashboard");
-  }
+  const isLoggedIn = !!session?.userId;
 
   return (
     <div className="min-h-screen bg-gray-50 text-slate-900 font-sans selection:bg-indigo-100 selection:text-indigo-900 overflow-x-hidden">
@@ -94,15 +92,26 @@ export default async function LandingPage() {
             <span className="font-bold text-xl text-slate-900 tracking-tight">Spreetail</span>
           </Link>
           <div className="flex items-center gap-4 sm:gap-6">
-            <Link href="/login" className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors hidden sm:block">
-              Sign in
-            </Link>
-            <Link 
-              href="/register" 
-              className="text-sm font-semibold bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-all shadow-sm shadow-indigo-600/20 active:scale-95"
-            >
-              Get started
-            </Link>
+            {isLoggedIn ? (
+              <Link 
+                href="/dashboard" 
+                className="text-sm font-semibold bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-all shadow-sm shadow-indigo-600/20 active:scale-95"
+              >
+                Go to Dashboard
+              </Link>
+            ) : (
+              <>
+                <Link href="/login" className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors hidden sm:block">
+                  Sign in
+                </Link>
+                <Link 
+                  href="/register" 
+                  className="text-sm font-semibold bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-all shadow-sm shadow-indigo-600/20 active:scale-95"
+                >
+                  Get started
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </nav>
@@ -133,19 +142,31 @@ export default async function LandingPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
-            <Link 
-              href="/register" 
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-semibold text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/40 hover:-translate-y-0.5 active:translate-y-0"
-            >
-              Start splitting for free
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-            <Link 
-              href="/login" 
-              className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-slate-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm"
-            >
-              Sign in
-            </Link>
+            {isLoggedIn ? (
+              <Link 
+                href="/dashboard" 
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-semibold text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/40 hover:-translate-y-0.5 active:translate-y-0"
+              >
+                Go to your Dashboard
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+            ) : (
+              <>
+                <Link 
+                  href="/register" 
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-semibold text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/40 hover:-translate-y-0.5 active:translate-y-0"
+                >
+                  Start splitting for free
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+                <Link 
+                  href="/login" 
+                  className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-slate-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm"
+                >
+                  Sign in
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Clean Dashboard Preview */}
@@ -272,13 +293,23 @@ export default async function LandingPage() {
               <p className="text-lg text-slate-300 mb-10 max-w-2xl mx-auto">
                 Join thousands of people who use Spreetail to keep finances fair and friendships intact.
               </p>
-              <Link 
-                href="/register" 
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-semibold text-slate-900 bg-white rounded-xl hover:bg-gray-50 transition-all shadow-lg active:scale-95"
-              >
-                Create your free account
-                <ArrowRight className="w-5 h-5" />
-              </Link>
+              {isLoggedIn ? (
+                <Link 
+                  href="/dashboard" 
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-semibold text-slate-900 bg-white rounded-xl hover:bg-gray-50 transition-all shadow-lg active:scale-95"
+                >
+                  Go to Dashboard
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+              ) : (
+                <Link 
+                  href="/register" 
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-semibold text-slate-900 bg-white rounded-xl hover:bg-gray-50 transition-all shadow-lg active:scale-95"
+                >
+                  Create your free account
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -297,8 +328,14 @@ export default async function LandingPage() {
             © {new Date().getFullYear()} Spreetail. Built with ❤️ for fair finances.
           </p>
           <div className="flex gap-6">
-            <Link href="/login" className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">Sign in</Link>
-            <Link href="/register" className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">Register</Link>
+            {isLoggedIn ? (
+              <Link href="/dashboard" className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">Dashboard</Link>
+            ) : (
+              <>
+                <Link href="/login" className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">Sign in</Link>
+                <Link href="/register" className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">Register</Link>
+              </>
+            )}
           </div>
         </div>
       </footer>
