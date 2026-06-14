@@ -29,6 +29,21 @@ Built as an internship engineering assignment demonstrating:
 | [`SCOPE.md`](./SCOPE.md) | MVP features, schema snapshot, validation rules |
 | [`AI_USAGE.md`](./AI_USAGE.md) | AI tool usage log + 3 documented AI mistakes |
 | [`BUILD_PLAN.md`](./BUILD_PLAN.md) | Pre-assignment context and initial build plan |
+| [`IMPORT_REPORT.md`](./IMPORT_REPORT.md) | Output report of CSV ingestion showing anomaly handling |
+
+---
+
+## 🤖 AI Usage
+
+This project was built with the assistance of **Google Antigravity (Gemini/Claude)**. 
+AI was strictly used as an engineering pair programming partner, not as a black-box code generator. 
+
+Key principles applied during AI collaboration:
+- **Interview-first**: The AI was forced to interview me to clarify requirements before writing any code.
+- **No silent fixes**: The AI was prevented from silently deleting duplicates or "cleaning" data without user approval.
+- **Critical review**: Every AI suggestion was reviewed. Mistakes (such as ignoring membership dates in balance calculations) were caught and corrected.
+
+Detailed prompts, specific AI mistakes, and how they were corrected are fully documented in the [AI_USAGE.md](./AI_USAGE.md) file.
 
 ---
 
@@ -90,22 +105,47 @@ Raw CSV data is **never overwritten**. Every correction is stored alongside the 
 
 ## 🛠️ Running Locally
 
-```bash
-# Install dependencies
-npm install
+### Prerequisites
+- Node.js 18+
+- PostgreSQL database (e.g., local Postgres or a free Neon.tech account)
 
-# Set up environment variables
-cp .env.example .env
-# Fill in DATABASE_URL and JWT_SECRET
+### Setup Steps
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/tharun-7733/SpreeTrail.git
+   cd Spreetail
+   ```
 
-# Push schema to database
-npx prisma db push
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-# Start development server
-npm run dev
-```
+3. **Configure Environment Variables:**
+   ```bash
+   cp .env.example .env
+   ```
+   Open `.env` and fill in your variables. You must provide a valid PostgreSQL connection string for `DATABASE_URL` and a random string for `JWT_SECRET`.
+   ```env
+   DATABASE_URL="postgresql://user:password@localhost:5432/spreetail"
+   JWT_SECRET="generate_a_random_secure_string_here"
+   ```
 
-Open [http://localhost:3000](spreetail-ten.vercel.app).
+4. **Initialize the Database:**
+   Push the Prisma schema to your database to create the tables.
+   ```bash
+   npx prisma db push
+   # Optional: generate the Prisma client
+   npx prisma generate
+   ```
+
+5. **Start the Development Server:**
+   ```bash
+   npm run dev
+   ```
+
+6. **Open the app:**
+   Navigate to [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
