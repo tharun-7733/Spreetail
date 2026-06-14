@@ -4,7 +4,7 @@ A production-quality shared expense management application for flatmates, built 
 
 ---
 
-## 🚀 Live Demo
+## Live Demo
 
 **[spreetail-ten.vercel.app](https://spreetail-ten.vercel.app)**
 
